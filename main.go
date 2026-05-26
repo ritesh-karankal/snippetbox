@@ -22,6 +22,10 @@ func viewSnippet(w http.ResponseWriter, r *http.Request) {
         w.Write([]byte(msg))
 }
 
+func createPostSnippet(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("Save a new snippet"))
+}
+
 func createSnippet(w http.ResponseWriter, r *http.Request) {
         w.Write([]byte("Display a form for creating a new snippet..."))
 }
@@ -30,9 +34,10 @@ func createSnippet(w http.ResponseWriter, r *http.Request) {
 func main() {
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/{$}", home)
-	mux.HandleFunc("/snippet/view/{id}", viewSnippet)
-	mux.HandleFunc("/snippet/create", createSnippet)
+	mux.HandleFunc("GET /{$}", home)
+	mux.HandleFunc("GET /snippet/view/{id}", viewSnippet)
+	mux.HandleFunc("GET /snippet/create", createSnippet)
+	mux.HandleFunc("POST /snippet/create", createPostSnippet)
 	log.Println("Starting server at :4000")
 
 	err := http.ListenAndServe(":4000", mux)
